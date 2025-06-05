@@ -76,7 +76,7 @@ public class NoticeController {
         @PostMapping("/delete")
         public String delete(@RequestParam("num")Long num) {
             noticeService.delete(num);
-            return "redirect:/notice/list";
+            return "redirect:/notice/list ";
         }
                 
         @GetMapping("/admin-login")
