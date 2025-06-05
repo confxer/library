@@ -136,7 +136,7 @@
                 <div class="notice-buttons"> <%-- 클래스명 변경 --%>
                     <a href="${pageContext.request.contextPath}/notice/list">목록으로</a> <%-- URL 변경 --%>
                     <c:if test="${loggedInMember.role == 'ADMIN'}"> <%-- 관리자 권한 확인 (유지) --%>
-                        <a href="${pageContext.request.contextPath}/notice/update/${notice.num}" class="edit-btn">수정</a> <%-- URL 및 필드명 변경 --%>
+                        <a href="${pageContext.request.contextPath}/notice/edit?num=${notice.num}" class="edit-btn">수정</a> <%-- URL 및 필드명 변경 --%>
                         <form action="${pageContext.request.contextPath}/notice/delete" method="post" style="display: inline-block;"> <%-- URL 변경 --%>
                             <input type="hidden" name="num" value="${notice.num}"> <%-- name 및 value 필드명 변경 --%>
                             <button type="submit" class="delete-btn" onclick="return confirm('정말로 이 공지사항을 삭제하시겠습니까?');">삭제</button> <%-- 텍스트 변경 --%>
