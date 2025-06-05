@@ -70,7 +70,7 @@ public class NoticeController {
         @PostMapping("/edit")
         public String updatesubmit(@ModelAttribute Notice notice) {
             noticeService.update(notice);
-            return "redirect:/notice/detail?num="+notice.getNum();
+            return "redirect:/notice/detail/"+notice.getNum();
         }
         
         @GetMapping("/delete")
