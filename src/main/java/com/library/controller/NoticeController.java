@@ -30,7 +30,7 @@ public class NoticeController {
     
         @GetMapping("/list")
         public String list(
-                @RequestParam(defaultValue = "1") int page,
+                @RequestParam(value = "page",defaultValue = "1") int page,
                 Model model) {
             List<Notice> notices = noticeService.findAll(page, PAGE_SIZE);
             int totalNotices = noticeService.getTotalNoticeCount();
@@ -86,8 +86,8 @@ public class NoticeController {
         
         @PostMapping("/admin-login")
         public String adminloginSubmit(
-                @RequestParam("username") String username,
-                @RequestParam("password") String password,
+                @RequestParam(value = "username") String username,
+                @RequestParam(value = "password") String password,
                 HttpSession session, Model model
                 ) {
             if("admin".equals(username)&&"9876".equals(password)) {

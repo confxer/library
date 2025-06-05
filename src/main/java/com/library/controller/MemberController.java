@@ -33,8 +33,8 @@ public class MemberController {
 
     @PostMapping("/login")
     public String processLogin( 
-    		@RequestParam String memberId,
-            @RequestParam String password,
+    		@RequestParam(value = "memberId") String memberId,
+            @RequestParam(value = "password") String password,
             HttpSession session,
             Model model,
             RedirectAttributes redirectAttributes) {

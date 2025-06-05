@@ -42,7 +42,7 @@ public class BoardController {
      */
     @GetMapping("/list")
     public String listPosts(
-            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(value = "page",defaultValue = "1") int page,
             Model model) {
         List<BoardDTO> posts = boardService.getAllPosts(page, PAGE_SIZE);
         int totalPosts = boardService.getTotalPostCount();
@@ -63,7 +63,7 @@ public class BoardController {
      */
     @GetMapping("/detail/{id}")
     public String viewPost(
-            @PathVariable("id") int id,
+            @PathVariable(value ="id") int id,
             Model model,
             RedirectAttributes redirectAttributes) {
         BoardDTO post = boardService.getPostById(id);
@@ -115,7 +115,7 @@ public class BoardController {
      */
     @GetMapping("/edit/{id}")
     public String showEditForm(
-            @PathVariable("id") int id,
+            @PathVariable(value = "id") int id,
             Model model,
             RedirectAttributes redirectAttributes) {
         BoardDTO post = boardService.getPostById(id);
@@ -135,7 +135,7 @@ public class BoardController {
      */
     @PostMapping("/edit/{id}")
     public String updatePost(
-    		@RequestParam("id") int id,
+    		@RequestParam(value = "id") int id,
             @ModelAttribute BoardDTO post,
             RedirectAttributes redirectAttributes) {
         try {
@@ -156,7 +156,7 @@ public class BoardController {
      */
     @GetMapping("/delete/{id}")
     public String deletePost(
-            @PathVariable("id") int id,
+            @PathVariable(value = "id") int id,
             RedirectAttributes redirectAttributes) {
         try {
             boardService.deletePost(id);

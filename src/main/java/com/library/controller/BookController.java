@@ -30,8 +30,8 @@ public class BookController {
 	
 	@GetMapping("/list")
     public String listBooks(
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "30") int size,
+            @RequestParam(value = "page",defaultValue = "1") int page,
+            @RequestParam(value = "size",defaultValue = "30") int size,
             Model model) {
         if (size >= 200) size = 200; // 최대 200개 제한
         else if (size >= 100) size = 100;
@@ -60,8 +60,8 @@ public class BookController {
     @GetMapping("/list/search")
     public String searchBooks(
             @RequestParam String query,
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "30") int size,
+            @RequestParam(value = "page",defaultValue = "1") int page,
+            @RequestParam(value = "size",defaultValue = "30") int size,
             Model model) {
         if (size >= 200) size = 200;
         else if (size >= 100) size = 100;
