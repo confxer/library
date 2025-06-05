@@ -73,8 +73,8 @@ public class NoticeController {
             return "redirect:/notice/detail/"+notice.getNum();
         }
         
-        @GetMapping("/delete")
-        public String delete(@RequestParam(value = "num")Long num) {
+        @PostMapping("/delete")
+        public String delete(@RequestParam("num")Long num) {
             noticeService.delete(num);
             return "redirect:/notice/list";
         }
