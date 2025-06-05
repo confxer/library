@@ -63,7 +63,7 @@ public class NoticeController {
         @GetMapping("/edit")
         public String update(@RequestParam(value="num") Long num, Model model) {
             Notice notice= noticeService.findByNum(num);
-            model.addAttribute("noti", notice);
+            model.addAttribute("notice", notice);
             return "notice/edit";
         }
         
