@@ -15,7 +15,9 @@ public class BorrowDAO {
     // 대출 정보 저장
     public void save(Borrow borrow) {
         String sql = "INSERT INTO borrow (user_id, book_seq_no, borrow_date) VALUES (?, ?, ?)";
+        String update = "update book SET portal_site_book_exst_at = 'N' WHERE seq_no = ?";
         jdbcTemplate.update(sql, borrow.getUserId(), borrow.getBookSeqNo(), borrow.getBorrowDate());
+        jdbcTemplate.update(update,borrow.getBookSeqNo());
     }
 
     // 사용자가 도서를 대출했는지 확인

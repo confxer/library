@@ -13,7 +13,7 @@ public class BookDTO {
     public BookDTO() {}
 
     public BookDTO(Long seqNo, String title, String author, String publisher, String introduction,
-                   String publicationDate, String portalExists) {
+                   String publicationDate, String portalExists, Long reviewCount) {
         this.seqNo = seqNo;
         this.title = title;
         this.author = author;
@@ -21,7 +21,7 @@ public class BookDTO {
         this.introduction = introduction;
         this.publicationDate = publicationDate;
         this.portalExists = portalExists;
-        this.reviewCount = 0L;
+        this.reviewCount = reviewCount;
     }
     
 	public Long getReviewCount() {

@@ -9,6 +9,15 @@ public class Book {
 	private String introduction;
 	private String publicationDate;
 	private String portalExists;
+	private Long reviewCount;
+
+	public Long getReviewCount() {
+		return reviewCount;
+	}
+
+	public void setReviewCount(Long reviewCount) {
+		this.reviewCount = reviewCount;
+	}
 
 	public Long getSeqNo() {
 		return seqNo;
