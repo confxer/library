@@ -80,11 +80,11 @@
 
         <form action="${pageContext.request.contextPath}/notice/edit" method="post"> <%-- URL 변경 --%>
             <%-- hidden input: noticeId는 수정할 게시글을 식별하는 데 사용됩니다. --%>
-            <input type="hidden" name="noticeId" value="${noticeDto.noticeId}"> <%-- name 및 value 필드명 변경 --%>
+            <input type="hidden" name="noticeId" value="${notice.num}"> <%-- name 및 value 필드명 변경 --%>
 
             <div class="form-group"> <%-- 폼 그룹화 --%>
                 <label for="title">제목:</label>
-                <input type="text" id="title" name="title" value="${noticeDto.title}" required> <%-- value 필드명 변경 --%>
+                <input type="text" id="title" name="title" value="${notice.title}" required> <%-- value 필드명 변경 --%>
             </div>
 
             <%-- 작성자 필드 제거 (공지사항에서는 일반적으로 작성자가 고정되거나 관리자로 설정) --%>
@@ -93,7 +93,7 @@
 
             <div class="form-group">
                 <label for="content">내용:</label>
-                <textarea id="content" name="content" rows="10" cols="50" required>${noticeDto.content}</textarea> <%-- value 필드명 변경 --%>
+                <textarea id="content" name="content" rows="10" cols="50" required>${notice.content}</textarea> <%-- value 필드명 변경 --%>
             </div>
 
             <%-- 공개 여부 필드 제거 (공지사항은 기본적으로 공개) --%>
@@ -118,7 +118,7 @@
         </form>
 
         <div class="link-group"> <%-- 링크 그룹화 --%>
-            <a href="${pageContext.request.contextPath}/notice/detail/${noticeDto.noticeId}">상세 보기로 돌아가기</a> <%-- URL 및 필드명 변경 --%>
+            <a href="${pageContext.request.contextPath}/notice/detail?num=${noticeDto.num}">상세 보기로 돌아가기</a> <%-- URL 및 필드명 변경 --%>
             <a href="${pageContext.request.contextPath}/notice/list">목록으로</a> <%-- URL 변경 --%>
         </div>
     </div>
