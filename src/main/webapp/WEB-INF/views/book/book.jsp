@@ -26,7 +26,7 @@
             </div>
             <c:if test="${book.portalExists == 'Y' && not empty loggedInMember}">
                 <form action="/library/book/${book.seqNo}/borrow" method="post" class="mb-4">
-                	<input type="hidden" id = "userId" name = "userId" value = "${loggedInMember.name }">
+                	<input type="hidden" id = "userId" name = "userId" value = "${loggedInMember.memberId }">
                     <button type="submit" 
                             class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">
                         대출하기
@@ -37,7 +37,7 @@
 
             <hr class="my-6">
 
-            <c:if test="${not empty loggedInMember && hasBorrowed			}">
+            <c:if test="${not empty loggedInMember && hasBorrowed}">
                 <form action="/library/book/${book.seqNo}/review" method="post" class="mb-6">
                     <textarea name="content" rows="4" 
                               class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" 

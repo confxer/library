@@ -60,7 +60,7 @@ public class BookController {
         List<Review> reviews = bookService.getReviewsByBookSeqNo(seqNo);
         boolean hasBorrowed = false;
         if(loggedInMember != null) {
-        	hasBorrowed = borrowService.hasBorrowed(loggedInMember.getName(), seqNo);        	
+        	hasBorrowed = borrowService.hasBorrowed(loggedInMember.getMemberId(), seqNo);        	
         }
         model.addAttribute("book", book);
         model.addAttribute("reviews", reviews);
