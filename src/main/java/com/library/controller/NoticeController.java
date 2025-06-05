@@ -60,7 +60,7 @@ public class NoticeController {
             return "redirect:/notice/list";
         }
         
-        @GetMapping("/update")
+        @GetMapping("/update/{num}")
         public String update(@RequestParam(value="num") Long num, Model model) {
             Notice notice= noticeService.findByNum(num);
             model.addAttribute("notice", notice);
