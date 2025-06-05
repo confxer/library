@@ -26,8 +26,9 @@
             </div>
             <c:if test="${book.portalExists == 'Y' && not empty loggedInMember}">
                 <form action="/library/book/${book.seqNo}/borrow" method="post" class="mb-4">
+                	<input type="hidden" id = "userId" name = "userId" value = "${loggedInMember.name }">
                     <button type="submit" 
-                            class="bg-blue-600 hover:bg-blue-700 text-black px-4 py-2 rounded-md">
+                            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">
                         대출하기
                     </button>
                 </form>
@@ -36,13 +37,13 @@
 
             <hr class="my-6">
 
-            <c:if test="${not empty loggedInMember}">
-                <form action="/library/list/book/${book.seqNo}/review" method="post" class="mb-6">
+            <c:if test="${not empty loggedInMember && hasBorrowed			}">
+                <form action="/library/book/${book.seqNo}/review" method="post" class="mb-6">
                     <textarea name="content" rows="4" 
                               class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" 
                               placeholder="리뷰를 작성하세요" required></textarea>
                     <button type="submit" 
-                            class="bg-blue-600 hover:bg-blue-700 text-black px-4 py-2 rounded-md mt-2">
+                            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md mt-2">
                         리뷰 제출
                     </button>
                 </form>

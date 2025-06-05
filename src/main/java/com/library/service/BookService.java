@@ -49,7 +49,8 @@ public class BookService {
             book.getPublisher(),
             book.getIntroduction(),
             book.getPublicationDate(),
-            book.getPortalExists()
+            book.getPortalExists(),
+            book.getReviewCount()
         );
     }
     
@@ -73,14 +74,6 @@ public class BookService {
     
     // 도서 대출
     public void borrowBook(Long seqNo, String memberId) {
-        Book book = bookDAO.findById(seqNo);
-        if (book == null) {
-            throw new RuntimeException("Book not found with seq_no: " + seqNo);
-        }
-        if ("Y".equals(book.getPortalExists())) {
-            throw new RuntimeException("Book is already borrowed");
-        }
-        bookDAO.updateBorrowStatus(seqNo, "Y");
         borrowService.saveBorrow(memberId, seqNo);
     }
     

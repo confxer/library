@@ -8,15 +8,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.library.book.BookDTO;
+import com.library.borrow.Borrow;
 import com.library.member.MemberVO;
 import com.library.review.Review;
 import com.library.service.BookService;
+import com.library.service.BorrowService;
 import com.library.service.ReviewService;
 
 @Controller
@@ -27,6 +30,9 @@ public class BookController {
 	
 	@Autowired
 	private ReviewService reviewService;
+	
+	@Autowired
+	private BorrowService borrowService;
 	
 	@GetMapping("/list")
     public String listBooks(
@@ -52,8 +58,13 @@ public class BookController {
     		Model model) {
         BookDTO book = bookService.getBookById(seqNo);
         List<Review> reviews = bookService.getReviewsByBookSeqNo(seqNo);
+        boolean hasBorrowed = false;
+        if(loggedInMember != null) {
+        	hasBorrowed = borrowService.hasBorrowed(loggedInMember.getName(), seqNo);        	
+        }
         model.addAttribute("book", book);
         model.addAttribute("reviews", reviews);
+        model.addAttribute("hasBorrowed" ,hasBorrowed);
         return "book/book";
     }
 
@@ -77,21 +88,21 @@ public class BookController {
         return "book/list";
     }
     
-    @PostMapping("/list/book/{seqNo}/review")
+    @PostMapping("/book/{seqNo}/review")
     public String submitReview(
             @PathVariable(value = "seqNo") Long seqNo,
             @RequestParam(value = "content") String content,
             @SessionAttribute("loggedInMember") MemberVO loggedInMember) {
-    	System.out.println("가잖아");
         reviewService.saveReview(seqNo, loggedInMember.getMemberId(), content);
-        return "redirect:/library/book/book/" + seqNo;
+        return "redirect:/list/book/" + seqNo;
     }
     
-    @PostMapping("/library/book/{seqNo}/borrow")
+    @PostMapping("/book/{seqNo}/borrow")
     public String borrowBook(
             @PathVariable(value = "seqNo") Long seqNo,
-            @SessionAttribute("loggedInMember") MemberVO loggedInMember) {
-        bookService.borrowBook(seqNo, loggedInMember.getMemberId());
-        return "redirect:/library/book/book/" + seqNo;
+            @SessionAttribute("loggedInMember") MemberVO loggedInMember,
+            @RequestParam(value = "userId") String userId) {
+    	borrowService.saveBorrow(userId, seqNo);
+        return "redirect:/list/book/" + seqNo;
     }
 }
