@@ -46,7 +46,7 @@ public class NoticeDAOImpl implements NoticeDAO {
        }
    }
 
-   /**
+   /**+
     * 전체 공지사항 수를 조회
     * @return 공지사항 총 개수
     */
