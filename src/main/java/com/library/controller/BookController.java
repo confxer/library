@@ -47,7 +47,7 @@ public class BookController {
     }
 
     @GetMapping("/list/book/{seqNo}")
-    public String getBook(@PathVariable Long seqNo, 
+    public String getBook(@PathVariable(value = "seqNo") Long seqNo, 
     		@SessionAttribute(value = "loggedInMember", required = false) MemberVO loggedInMember, 
     		Model model) {
         BookDTO book = bookService.getBookById(seqNo);
@@ -59,7 +59,7 @@ public class BookController {
 
     @GetMapping("/list/search")
     public String searchBooks(
-            @RequestParam String query,
+            @RequestParam(value = "query") String query,
             @RequestParam(value = "page",defaultValue = "1") int page,
             @RequestParam(value = "size",defaultValue = "30") int size,
             Model model) {
@@ -79,8 +79,8 @@ public class BookController {
     
     @PostMapping("/list/book/{seqNo}/review")
     public String submitReview(
-            @PathVariable Long seqNo,
-            @RequestParam String content,
+            @PathVariable(value = "seqNo") Long seqNo,
+            @RequestParam(value = "content") String content,
             @SessionAttribute("loggedInMember") MemberVO loggedInMember) {
     	System.out.println("가잖아");
         reviewService.saveReview(seqNo, loggedInMember.getMemberId(), content);
@@ -89,7 +89,7 @@ public class BookController {
     
     @PostMapping("/library/book/{seqNo}/borrow")
     public String borrowBook(
-            @PathVariable Long seqNo,
+            @PathVariable(value = "seqNo") Long seqNo,
             @SessionAttribute("loggedInMember") MemberVO loggedInMember) {
         bookService.borrowBook(seqNo, loggedInMember.getMemberId());
         return "redirect:/library/book/book/" + seqNo;
