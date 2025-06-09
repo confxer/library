@@ -95,10 +95,6 @@ public class BookDAO {
         return jdbcTemplate.queryForObject(sql, Long.class, "%" + title + "%");
     }
     
- // 도서 대출 상태 업데이트
-    public void updateBorrowStatus(Long seqNo, String status) {
-        String sql = "UPDATE book SET portal_site_book_exst_at = ? WHERE seq_no = ?";
-        jdbcTemplate.update(sql, status, seqNo);
-    }
+
 
 }

@@ -105,4 +105,12 @@ public class BookController {
     	borrowService.saveBorrow(userId, seqNo);
         return "redirect:/list/book/" + seqNo;
     }
+    @PostMapping("/book/{seqNo}/return")
+    public String returnBook(
+    		@PathVariable(value = "seqNo") Long seqNo,
+    		@RequestParam(value = "borrowId") Long borrowId
+    		) {
+    	borrowService.returnBook(seqNo, borrowId);
+    	return "member/mypage";
+    }
 }

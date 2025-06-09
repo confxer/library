@@ -88,9 +88,11 @@ public class MemberController {
             // 현재 로그인된 회원의 전체 정보를 다시 불러옵니다.
             MemberVO memberInfo = memberService.getMemberById(loggedInMember.getMemberId());
             List<Book> borrows = borrowService.showBorrows(loggedInMember.getMemberId());
+            List<Borrow> borrowed = borrowService.showBorrowed(loggedInMember.getMemberId());
             if (memberInfo != null) {
                 model.addAttribute("member", memberInfo);
                 model.addAttribute("borrows", borrows);
+                model.addAttribute("borrowed", borrowed);
                 return "member/mypage";
             } else {
                 session.invalidate(); // 정보가 없다면 세션 무효화

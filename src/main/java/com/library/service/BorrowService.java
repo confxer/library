@@ -55,4 +55,12 @@ public class BorrowService {
     	}
     	return books;
     }
+    
+    public List<Borrow> showBorrowed(String userId){
+    	return borrowDAO.showList(userId);
+    }
+    
+   public void returnBook(Long seqNo, Long borrowId) {
+	   borrowDAO.updateReturn(seqNo, borrowId);
+   }
 }

@@ -100,20 +100,27 @@
     <div class="loan-list-container">
         <h3>나의 대출 내역</h3>
         <c:choose>
-            <c:when test="${not empty borrows}">
+            <c:when test="${not empty borrows && not empty borrowed}">
                 <table>
                     <thead>
                         <tr>
                             <th>도서 제목</th>
                             <th>저자</th>
+                            <th>반납</th>
                         </tr>
                     </thead>
                     <tbody>
                         <c:forEach var="borrow" items="${borrows}">
-                            <tr>
-                                <td>${borrow.title}</td>
-                                <td>${borrow.author}</td>                      
-                            </tr>
+                        	<form action="/library/book/${borrow.seqNo }/return" method="post"> 
+	                            <tr>
+	                                <td>${borrow.title}</td>
+	                                <td>${borrow.author}</td>
+                        </c:forEach>
+                        <c:forEach var="borrowed" items="${borrowed }">
+                        	<input type="hidden" id="borrowId" name="borrowId" value="${borrowed.borrowId }"  >
+	                                <td><button type="submit">반납하기</button></td>
+	                            </tr>
+                        	</form>
                         </c:forEach>
                     </tbody>
                 </table>
