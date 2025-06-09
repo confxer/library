@@ -295,7 +295,7 @@
                     <c:choose>
                         <c:when test="${not empty notices}">
                             <c:forEach var="notice" items="${notices}" varStatus="status" begin="0" end="4">
-                                <li><a href="<c:url value="/notice/detail?num=${notice.num}"/>">${notice.title}</a></li>
+                                <li><a href="<c:url value="/notice/detail/${notice.num}"/>">${notice.title}</a></li>
                             </c:forEach>
                         </c:when>
                         <c:otherwise>
@@ -312,7 +312,7 @@
                     <c:choose>
                         <c:when test="${not empty qnas}">
                             <c:forEach var="qa" items="${qnas}" varStatus="status" begin="0" end="4">
-                                <li><a href="<c:url value="/qa/detail?num=${qa.qnaId}"/>">${qa.title}</a></li>
+                                <li><a href="<c:url value="/qna/detail/${qa.qnaId}"/>">${qa.title}</a></li>
                             </c:forEach>
                         </c:when>
                         <c:otherwise>
@@ -350,23 +350,6 @@
                         </c:forEach>
                     </c:if>
                 </div>
-            </div>
-
-            <%-- 신작 도서 섹션 --%>
-            <div class="section-container new-books-section">
-                <h3>신작 도서</h3>
-                <ul>
-                    <c:choose>
-                        <c:when test="${not empty newBooks}">
-                            <c:forEach var="book" items="${newBooks}" varStatus="status" begin="0" end="5">
-                                <li><a href="<c:url value="/book/detail?seqNo=${book.seq_no}"/>">${book.title_nm} - ${book.authr_nm}</a></li>
-                            </c:forEach>
-                        </c:when>
-                        <c:otherwise>
-                            <li>신작 도서가 없습니다.</li>
-                        </c:otherwise>
-                    </c:choose>
-                </ul>
             </div>
         </div>
     </main>

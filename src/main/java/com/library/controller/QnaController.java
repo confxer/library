@@ -24,11 +24,11 @@ public class QnaController {
 
     // ✅ QnA 목록
     @GetMapping("/list")
-    public String list(@RequestParam(defaultValue = "1") int page,
-                       @RequestParam(defaultValue = "10") int pageSize,
-                       @RequestParam(required = false) String keyword,
-                       @RequestParam(required = false) String category,
-                       @RequestParam(defaultValue = "latest") String sort,
+    public String list(@RequestParam(value = "page", defaultValue = "1") int page,
+                       @RequestParam(value = "pageSize" ,defaultValue = "10") int pageSize,
+                       @RequestParam(value = "keyword", required = false) String keyword,
+                       @RequestParam(value = "category", required = false) String category,
+                       @RequestParam(value = "sort" , defaultValue = "latest") String sort,
                        Model model) {
 
         List<Qna> qnaList = qnaService.getQnasBySearch(keyword, category, sort, page, pageSize);
@@ -48,8 +48,8 @@ public class QnaController {
 
     // ✅ QnA 상세 보기
     @GetMapping("/detail/{id}")
-    public String view(@PathVariable int id,
-                       @RequestParam(required = false) String password,
+    public String view(@PathVariable(value = "id") int id,
+                       @RequestParam(value = "password", required = false) String password,
                        HttpSession session,
                        Model model) {
 
@@ -96,7 +96,7 @@ public class QnaController {
 
     // ✅ 수정 폼
     @GetMapping("/edit/{id}")
-    public String editForm(@PathVariable int id, HttpSession session, Model model) {
+    public String editForm(@PathVariable(value = "id") int id, HttpSession session, Model model) {
         Qna qna = qnaService.getQnaById(id);
         MemberVO member = (MemberVO) session.getAttribute("loggedInMember");
 
@@ -119,7 +119,7 @@ public class QnaController {
 
     // ✅ 삭제 처리 (POST 방식)
     @PostMapping("/delete/{id}")
-    public String delete(@PathVariable int id, HttpSession session) {
+    public String delete(@PathVariable(value = "id") int id, HttpSession session) {
         Qna qna = qnaService.getQnaById(id);
         MemberVO member = (MemberVO) session.getAttribute("loggedInMember");
 
@@ -132,14 +132,14 @@ public class QnaController {
 
     // ✅ 관리자 답변 등록
     @PostMapping("/answer/{id}")
-    public String answer(@PathVariable int id, @RequestParam String answer) {
+    public String answer(@PathVariable(value = "id") int id, @RequestParam(value = "answer") String answer) {
         qnaService.updateAnswer(id, answer);
         return "redirect:/qna/detail/" + id;
     }
 
     // ✅ 댓글 등록
     @PostMapping("/reply/{id}")
-    public String createReply(@PathVariable int id, @ModelAttribute Reply reply, HttpSession session) {
+    public String createReply(@PathVariable(value = "id") int id, @ModelAttribute Reply reply, HttpSession session) {
         MemberVO member = (MemberVO) session.getAttribute("loggedInMember");
         if (member != null) {
             reply.setWriter(member.getMemberId());
@@ -151,9 +151,9 @@ public class QnaController {
 
     // ✅ 댓글 수정
     @PostMapping("/reply/update/{replyId}")
-    public String updateReply(@PathVariable int replyId,
-                              @ModelAttribute Reply reply,
-                              @RequestParam int qnaId) {
+    public String updateReply(@PathVariable(value = "replyId") int replyId,
+                              @ModelAttribute(value = "reply") Reply reply,
+                              @RequestParam(value = "qnaId") int qnaId) {
         reply.setReplyId(replyId);
         qnaService.updateReply(reply);
         return "redirect:/qna/detail/" + qnaId;
@@ -161,7 +161,7 @@ public class QnaController {
 
     // ✅ 댓글 삭제
     @PostMapping("/reply/delete/{replyId}")
-    public String deleteReply(@PathVariable int replyId, @RequestParam int qnaId) {
+    public String deleteReply(@PathVariable(value = "replyId") int replyId, @RequestParam(value = "qnaId") int qnaId) {
         qnaService.deleteReply(replyId);
         return "redirect:/qna/detail/" + qnaId;
     }
