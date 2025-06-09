@@ -100,46 +100,27 @@
     <div class="loan-list-container">
         <h3>나의 대출 내역</h3>
         <c:choose>
-            <c:when test="${not empty loanList}">
+            <c:when test="${not empty borrows && not empty borrowed}">
                 <table>
                     <thead>
                         <tr>
                             <th>도서 제목</th>
                             <th>저자</th>
-                            <th>대출일</th>
-                            <th>반납 예정일</th>
-                            <th>반납일</th>
-                            <th>상태</th>
+                            <th>반납</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach var="loan" items="${loanList}">
-                            <tr>
-                                <td>${loan.bookTitle}</td>
-                                <td>${loan.author}</td>
-                                <td><fmt:formatDate value="${loan.loanDate}" pattern="yyyy-MM-dd"/></td>
-                                <td><fmt:formatDate value="${loan.dueDate}" pattern="yyyy-MM-dd"/></td>
-                                <td>
-                                    <c:choose>
-                                        <c:when test="${not empty loan.returnDate}">
-                                            <fmt:formatDate value="${loan.returnDate}" pattern="yyyy-MM-dd"/>
-                                        </c:when>
-                                        <c:otherwise>
-                                            -
-                                        </c:otherwise>
-                                    </c:choose>
-                                </td>
-                                <td>
-                                    <c:choose>
-                                        <c:when test="${not empty loan.returnDate}">
-                                            <span class="loan-status-returned">반납 완료</span>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <span class="loan-status-ongoing">대출 중</span>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </td>
-                            </tr>
+                        <c:forEach var="borrow" items="${borrows}">
+                        	<form action="/library/book/${borrow.seqNo }/return" method="post"> 
+	                            <tr>
+	                                <td>${borrow.title}</td>
+	                                <td>${borrow.author}</td>
+                        </c:forEach>
+                        <c:forEach var="borrowed" items="${borrowed }">
+                        	<input type="hidden" id="borrowId" name="borrowId" value="${borrowed.borrowId }"  >
+	                                <td><button type="submit">반납하기</button></td>
+	                            </tr>
+                        	</form>
                         </c:forEach>
                     </tbody>
                 </table>

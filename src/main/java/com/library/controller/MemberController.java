@@ -2,6 +2,9 @@ package com.library.controller;
 
 
 import jakarta.servlet.http.HttpSession; // Jakarta EE의 HttpSession 사용
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.library.book.Book;
+import com.library.borrow.Borrow;
 import com.library.member.MemberVO;
+import com.library.service.BorrowService;
 import com.library.service.MemberService;
 
 @Controller
@@ -20,6 +26,9 @@ import com.library.service.MemberService;
 public class MemberController {
 
     private final MemberService memberService;
+    
+    @Autowired
+    private BorrowService borrowService;
 
     @Autowired
     public MemberController(MemberService memberService) {
@@ -78,8 +87,12 @@ public class MemberController {
         try {
             // 현재 로그인된 회원의 전체 정보를 다시 불러옵니다.
             MemberVO memberInfo = memberService.getMemberById(loggedInMember.getMemberId());
+            List<Book> borrows = borrowService.showBorrows(loggedInMember.getMemberId());
+            List<Borrow> borrowed = borrowService.showBorrowed(loggedInMember.getMemberId());
             if (memberInfo != null) {
                 model.addAttribute("member", memberInfo);
+                model.addAttribute("borrows", borrows);
+                model.addAttribute("borrowed", borrowed);
                 return "member/mypage";
             } else {
                 session.invalidate(); // 정보가 없다면 세션 무효화

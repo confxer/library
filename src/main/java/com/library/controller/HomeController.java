@@ -2,16 +2,41 @@
 package com.library.controller;
 
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.library.book.BookDTO;
+import com.library.notice.Notice;
+import com.library.qna.Qna;
+import com.library.service.BookService;
+import com.library.service.NoticeService;
+import com.library.service.QnaService;
 
 @Controller
 public class HomeController {
 	
+	@Autowired
+	BookService bookService;
+	
+	@Autowired
+	NoticeService noticeService;
+	
+	@Autowired
+	QnaService qnaService;
+	
+	private static final int PAGE_SIZE = 3;
+	
     @GetMapping("/")
     public String home(Model model) {
-
+    	List<Qna> qnas = qnaService.getQnasBySearch(null, null, null, 1, PAGE_SIZE);
+    	List<Notice> notices = noticeService.findAll(1, PAGE_SIZE);
+    	model.addAttribute("notices", notices);
+    	model.addAttribute("qnas",qnas);
         return "index"; // views/index.jsp 반환
     }
 
@@ -21,7 +46,21 @@ public class HomeController {
     }
 
     @GetMapping("/library")
-    public String myLibrary(Model model) {
-        return "mylibrary"; // views/mylibrary.jsp 반환
+    public String myLibrary
+    	(@RequestParam(value = "page",defaultValue = "1") int page,
+        @RequestParam(value = "size",defaultValue = "30") int size,
+        Model model) {
+	    if (size >= 200) size = 200; // 최대 200개 제한
+	    else if (size >= 100) size = 100;
+	    else if (size >= 50) size = 50;
+	    else size = 30;
+	    List<BookDTO> books = bookService.getAllBooks(page, size);
+	    long totalBooks = bookService.getTotalBooks();
+	    model.addAttribute("books", books);
+	    model.addAttribute("totalBooks", totalBooks);
+	    model.addAttribute("currentPage", page);
+	    model.addAttribute("pageSize", size);
+        return "book/list"; 
+       
     }
 }

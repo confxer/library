@@ -7,6 +7,7 @@ public class Borrow {
     private String userId;
     private Long bookSeqNo;
     private LocalDateTime borrowDate;
+    private String status;
 
     // Getters and Setters
     public Long getBorrowId() { return borrowId; }
@@ -17,4 +18,10 @@ public class Borrow {
     public void setBookSeqNo(Long bookSeqNo) { this.bookSeqNo = bookSeqNo; }
     public LocalDateTime getBorrowDate() { return borrowDate; }
     public void setBorrowDate(LocalDateTime borrowDate) { this.borrowDate = borrowDate; }
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 }
