@@ -24,11 +24,11 @@ public class QnaController {
 
     // ✅ QnA 목록
     @GetMapping("/list")
-    public String list(@RequestParam(defaultValue = "1") int page,
-                       @RequestParam(defaultValue = "10") int pageSize,
-                       @RequestParam(required = false) String keyword,
-                       @RequestParam(required = false) String category,
-                       @RequestParam(defaultValue = "latest") String sort,
+    public String list(@RequestParam(value = "page" ,defaultValue = "1") int page,
+                       @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
+                       @RequestParam(value = "keyword", required = false) String keyword,
+                       @RequestParam(value = "category", required = false) String category,
+                       @RequestParam(value = "sort" ,defaultValue = "latest") String sort,
                        Model model) {
 
         List<Qna> qnaList = qnaService.getQnasBySearch(keyword, category, sort, page, pageSize);
@@ -48,8 +48,8 @@ public class QnaController {
 
     // ✅ QnA 상세 보기
     @GetMapping("/detail/{id}")
-    public String view(@PathVariable int id,
-                       @RequestParam(required = false) String password,
+    public String view(@PathVariable(value = "id") int id,
+                       @RequestParam(value = "password" ,required = false) String password,
                        HttpSession session,
                        Model model) {
 

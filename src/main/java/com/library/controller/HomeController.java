@@ -29,7 +29,7 @@ public class HomeController {
 	@Autowired
 	QnaService qnaService;
 	
-	private static final int PAGE_SIZE = 3;
+	private static final int PAGE_SIZE = 4;
 	
     @GetMapping("/")
     public String home(Model model) {

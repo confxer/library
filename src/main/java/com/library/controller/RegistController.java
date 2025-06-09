@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping; // import 확인
 import org.springframework.web.bind.annotation.PostMapping; // import 확인
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.library.member.MemberVO;
@@ -40,7 +41,8 @@ public class RegistController { // 주의: MemberController가 아니라 RegistC
      * Form Data: memberId, password, name, email, phoneNumber, address, passwordConfirm
      */
     @PostMapping("/register") // <-- 이 어노테이션을 주석 해제하세요!
-    public String registerMember(MemberVO memberVO, String passwordConfirm,
+    public String registerMember(MemberVO memberVO, 
+    		@RequestParam(value = "passwordConfirm") String passwordConfirm,
                                  RedirectAttributes redirectAttributes, Model model) {
         // 1. 서버 측 비밀번호 확인
         if (!memberVO.getPassword().equals(passwordConfirm)) {

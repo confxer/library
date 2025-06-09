@@ -22,6 +22,7 @@ public class MemberDAOImpl implements MemberDAO {
     public MemberVO getMemberById(String memberId) throws Exception {
         String sql = "SELECT * FROM member WHERE member_id = ?";
         try {
+        	System.out.println(memberId);
         	return jdbcTemplate.queryForObject(sql, (rs, rowNum) ->{
         		MemberVO member = new MemberVO();
         		member.setAddress(rs.getString("address"));
@@ -34,14 +35,12 @@ public class MemberDAOImpl implements MemberDAO {
         	    member.setRegDate(regTimestamp != null ? new Date(regTimestamp.getTime()) : null);
                 member.setRole(rs.getString("role"));
                 member.setStatus(rs.getString("status"));
+                System.out.println(member.toString());
         		return member;
         	}, memberId	);
 		} catch (Exception e) {
-			// TODO: handle exception
 			return null;
 		}
-        
-        
     }
 
     @Override

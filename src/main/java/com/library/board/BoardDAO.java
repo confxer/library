@@ -57,7 +57,7 @@ public class BoardDAO {
     }
     
     public void insertPost(BoardDTO dto) {
-        String sql = "INSERT INTO board (title, content, writer) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO board (title, content, writer) values(?, ?, ?)";
         try {
             jdbcTemplate.update(sql, 
                 dto.getTitle(),
