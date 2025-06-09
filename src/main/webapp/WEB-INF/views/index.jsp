@@ -293,9 +293,9 @@
                 <h3>최근 공지사항</h3>
                 <ul>
                     <c:choose>
-                        <c:when test="${not empty recentNotices}">
-                            <c:forEach var="notice" items="${recentNotices}" varStatus="status" begin="0" end="4">
-                                <li><a href="<c:url value="/notice/detail?num=${notice.noticeId}"/>">${notice.title}</a></li>
+                        <c:when test="${not empty notices}">
+                            <c:forEach var="notice" items="${notices}" varStatus="status" begin="0" end="4">
+                                <li><a href="<c:url value="/notice/detail?num=${notice.num}"/>">${notice.title}</a></li>
                             </c:forEach>
                         </c:when>
                         <c:otherwise>
@@ -310,9 +310,9 @@
                 <h3>Q&A</h3>
                 <ul>
                     <c:choose>
-                        <c:when test="${not empty recentQnAs}">
-                            <c:forEach var="qa" items="${recentQnAs}" varStatus="status" begin="0" end="4">
-                                <li><a href="<c:url value="/qa/detail?num=${qa.qaId}"/>">${qa.questionTitle}</a></li>
+                        <c:when test="${not empty qnas}">
+                            <c:forEach var="qa" items="${qnas}" varStatus="status" begin="0" end="4">
+                                <li><a href="<c:url value="/qa/detail?num=${qa.qnaId}"/>">${qa.title}</a></li>
                             </c:forEach>
                         </c:when>
                         <c:otherwise>

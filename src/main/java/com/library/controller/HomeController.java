@@ -11,7 +11,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.library.book.BookDTO;
+import com.library.notice.Notice;
+import com.library.qna.Qna;
 import com.library.service.BookService;
+import com.library.service.NoticeService;
+import com.library.service.QnaService;
 
 @Controller
 public class HomeController {
@@ -19,9 +23,20 @@ public class HomeController {
 	@Autowired
 	BookService bookService;
 	
+	@Autowired
+	NoticeService noticeService;
+	
+	@Autowired
+	QnaService qnaService;
+	
+	private static final int PAGE_SIZE = 3;
+	
     @GetMapping("/")
     public String home(Model model) {
-
+    	List<Qna> qnas = qnaService.getQnasBySearch(null, null, null, 1, PAGE_SIZE);
+    	List<Notice> notices = noticeService.findAll(1, PAGE_SIZE);
+    	model.addAttribute("notices", notices);
+    	model.addAttribute("qnas",qnas);
         return "index"; // views/index.jsp 반환
     }
 

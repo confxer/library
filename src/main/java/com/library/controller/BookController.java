@@ -111,6 +111,6 @@ public class BookController {
     		@RequestParam(value = "borrowId") Long borrowId
     		) {
     	borrowService.returnBook(seqNo, borrowId);
-    	return "member/mypage";
+    	return "redirect:/member/mypage";
     }
 }
