@@ -1,10 +1,14 @@
 package com.library.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.library.book.Book;
+import com.library.book.BookDAO;
 import com.library.borrow.Borrow;
 import com.library.borrow.BorrowDAO;
 import com.library.member.MemberDAO;
@@ -17,6 +21,9 @@ public class BorrowService {
 
     @Autowired
     private MemberDAO memberDAO;
+    
+    @Autowired
+    private BookDAO bookDAO;
     
     // 대출 정보 저장
     public void saveBorrow(String userId, Long bookSeqNo) {
@@ -37,5 +44,15 @@ public class BorrowService {
     // 대출 여부 확인
     public boolean hasBorrowed(String userId, Long bookSeqNo) {
         return borrowDAO.existsByUserIdAndBookSeqNo(userId, bookSeqNo);
+    }
+    
+    public List<Book> showBorrows(String userId){
+    	List<Borrow> borrows = borrowDAO.showList(userId);
+    	List<Book> books = new ArrayList<>();
+    	for(Borrow borrow: borrows) {
+    		Book book = bookDAO.findById(borrow.getBookSeqNo());
+    		books.add(book);
+    	}
+    	return books;
     }
 }

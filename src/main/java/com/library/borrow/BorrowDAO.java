@@ -1,5 +1,9 @@
 package com.library.borrow;
 
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -26,4 +30,19 @@ public class BorrowDAO {
         Integer count = jdbcTemplate.queryForObject(sql, Integer.class, userId, bookSeqNo);
         return count != null && count > 0;
     }
+    
+    public List<Borrow> showList(String userId) {
+    	String sql = "select * from borrow where user_id = ?";
+    	return jdbcTemplate.query(sql,
+    			(rs, rowNum) -> {
+    				Borrow borrow = new Borrow();
+    				borrow.setBookSeqNo(rs.getLong("book_seq_no"));
+    				borrow.setBorrowId(rs.getLong("borrow_id"));
+            	    borrow.setBorrowDate(rs.getTimestamp("borrow_date").toLocalDateTime());
+    				borrow.setUserId(rs.getString("user_id"));
+    				return borrow;
+    			},userId);
+    }
+    
+    
 }
