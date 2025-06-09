@@ -329,17 +329,17 @@
             <div class="section-container recommended-books-section">
                 <h3>이번 달 추천 도서</h3>
                 <div class="recommended-books">
-                    <c:forEach var="book" items="${recommendedBooks}" varStatus="status" begin="0" end="3">
+                    <c:forEach var="book" items="${recommendations}" varStatus="status" begin="0" end="3">
                         <div class="recommended-item">
                             <%-- 이미지 경로를 실제 존재하는 이미지로 확인 또는 기본 이미지 사용 --%>
                             <img src="<c:url value="/resources/images/recommended_book_0${status.index + 1}.jpg"/>"
-                                 alt="${book.title_nm}" class="book-cover">
-                            <p>${book.title_nm}</p>
-                            <p>${book.authr_nm}</p>
+                                 alt="${book.title}" class="book-cover">
+                            <p>${book.title}</p>
+                            <p>${book.author}</p>
                         </div>
                     </c:forEach>
-                    <c:if test="${empty recommendedBooks || fn:length(recommendedBooks) < 4}"> <%-- size() 대신 fn:length() 사용 --%>
-                        <c:set var="numMissing" value="${4 - fn:length(recommendedBooks)}" /> <%-- size() 대신 fn:length() 사용 --%>
+                    <c:if test="${empty recommendations || fn:length(recommendations) < 4}"> <%-- size() 대신 fn:length() 사용 --%>
+                        <c:set var="numMissing" value="${4 - fn:length(recommendations)}" /> <%-- size() 대신 fn:length() 사용 --%>
                         <c:forEach begin="1" end="${numMissing}">
                             <div class="recommended-item placeholder-item">
                                 <%-- 기본 이미지 경로 확인 (필요 시 직접 파일 추가). 이 파일이 없다면 'default_book_cover.jpg' 파일을 /resources/images/ 에 추가해야 합니다. --%>

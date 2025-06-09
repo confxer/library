@@ -95,6 +95,20 @@ public class BookDAO {
         return jdbcTemplate.queryForObject(sql, Long.class, "%" + title + "%");
     }
     
-
+    public List<Book> recommendation(){
+    	String sql = "SELECT b.*, count(l.book_seq_no) as count FROM book b left join review l on  b.seq_no = l.book_seq_no group by b.seq_no ORDER BY count desc";
+    	return jdbcTemplate.query(sql, (rs, rowNum) -> {
+    		Book book = new Book();
+            book.setSeqNo(rs.getLong("seq_no"));
+            book.setTitle(rs.getString("title_nm"));
+            book.setAuthor(rs.getString("authr_nm"));
+            book.setPublisher(rs.getString("publisher_nm"));
+            book.setIntroduction(rs.getString("book_intrcn_cn"));
+            book.setPublicationDate(rs.getString("two_pblicte_de"));
+            book.setPortalExists(rs.getString("portal_site_book_exst_at"));
+            book.setReviewCount(rs.getLong("count"));
+            return book;
+    	});
+    }
 
 }

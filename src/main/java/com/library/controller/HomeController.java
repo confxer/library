@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.library.book.Book;
 import com.library.book.BookDTO;
 import com.library.notice.Notice;
 import com.library.qna.Qna;
@@ -21,22 +22,24 @@ import com.library.service.QnaService;
 public class HomeController {
 	
 	@Autowired
-	BookService bookService;
+	private BookService bookService;
 	
 	@Autowired
-	NoticeService noticeService;
+	private NoticeService noticeService;
 	
 	@Autowired
-	QnaService qnaService;
+	private QnaService qnaService;
 	
 	private static final int PAGE_SIZE = 4;
 	
     @GetMapping("/")
     public String home(Model model) {
+    	List<Book> recommendations = bookService.listRecommendation(); 
     	List<Qna> qnas = qnaService.getQnasBySearch(null, null, null, 1, PAGE_SIZE);
     	List<Notice> notices = noticeService.findAll(1, PAGE_SIZE);
     	model.addAttribute("notices", notices);
     	model.addAttribute("qnas",qnas);
+    	model.addAttribute("recommendations", recommendations);
         return "index"; // views/index.jsp 반환
     }
 

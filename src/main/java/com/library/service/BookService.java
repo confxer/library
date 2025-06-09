@@ -81,4 +81,8 @@ public class BookService {
     public List<Review> getReviewsByBookSeqNo(Long bookSeqNo) {
         return reviewService.getReviewsByBookSeqNo(bookSeqNo);
     }
+    
+    public List<Book> listRecommendation(){
+    	return bookDAO.recommendation();
+    }
 }
