@@ -48,6 +48,7 @@ public class MemberController {
             Model model,
             RedirectAttributes redirectAttributes) {
         try {
+        	System.out.println("ee");
             MemberVO member = memberService.login(memberId, password);
             if (member != null) {
                 // 로그인 성공 시 세션에 MemberVO 객체를 통째로 저장
