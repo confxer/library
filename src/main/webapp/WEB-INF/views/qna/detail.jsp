@@ -246,50 +246,56 @@
 
             <div class="reply-section">
                 <h3>댓글</h3>
-            </div>
-
-            <c:choose>
-                <c:when test="${not empty replies}">
-                    <ul class="reply-list">
-                        <c:forEach var="reply" items="${replies}">
-                            <li class="reply-item">
-                                <div class="reply-meta">
-                                    <span class="reply-writer">${reply.writer}</span>
-                                    <span class="reply-date"><fmt:formatDate value="${reply.regDate}" pattern="yyyy-MM-dd HH:mm"/></span>
-                                </div>
-                                <div class="reply-content">${reply.content}</div>
-                                <c:if test="${reply.writer == sessionScope.loggedInMember.memberId or sessionScope.adminUser != null}">
-                                    <div class="reply-actions">
-                                        <form action="${pageContext.request.contextPath}/qna/reply/delete/${reply.replyId}"
-                                              method="post" class="inline-form">
-                                            <input type="hidden" name="qnaId" value="${qna.qnaId}" />
-                                            <button type="submit" class="reply-delete"
-                                                    onclick="return confirm('댓글을 삭제하시겠습니까?')">삭제</button>
-                                        </form>
-                                        <form method="get" class="inline-form">
-                                            <input type="hidden" name="editReplyId" value="${reply.replyId}" />
-                                            <button type="submit" class="reply-edit">수정</button>
-                                        </form>
-                                    </div>
-                                </c:if>
-                            </li>
-                        </c:forEach>
-                    </ul>
-                </c:when>
-                <c:otherwise>
+                <ul class="reply-list">
+                    <c:forEach var="reply" items="${replies}">
+                        <li class="reply-item">
+                            <div class="reply-meta">
+                                <span class="reply-writer">${reply.writer}</span>
+                                <span class="reply-date"><fmt:formatDate value="${reply.regDate}" pattern="yyyy-MM-dd HH:mm"/></span>
+                            </div>
+                            <c:choose>
+                                <c:when test="${param.editReplyId == reply.replyId}">
+                                    <form action="${pageContext.request.contextPath}/reply/update" method="post" class="reply-form">
+                                        <input type="hidden" name="replyId" value="${reply.replyId}" />
+                                        <input type="hidden" name="qnaId" value="${qna.qnaId}" />
+                                        <textarea name="content" required>${reply.content}</textarea>
+                                        <button type="submit" class="reply-submit">수정 완료</button>
+                                    </form>
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="reply-content">${reply.content}</div>
+                                    <c:if test="${reply.writer == sessionScope.loggedInMember.memberId or sessionScope.adminUser != null}">
+                                        <div class="reply-actions">
+                                            <form action="${pageContext.request.contextPath}/qna/reply/delete/${reply.replyId}" method="post" class="inline-form">
+                                                <input type="hidden" name="qnaId" value="${qna.qnaId}" />
+                                                <button type="submit" class="reply-delete" onclick="return confirm('댓글을 삭제하시겠습니까?')">삭제</button>
+                                            </form>
+                                            <form method="get" class="inline-form">
+                                                <input type="hidden" name="editReplyId" value="${reply.replyId}" />
+                                                <input type="hidden" name="qnaId" value="${qna.qnaId}" />
+                                                <button type="submit" class="reply-edit">수정</button>
+                                            </form>
+                                        </div>
+                                    </c:if>
+                                </c:otherwise>
+                            </c:choose>
+                        </li>
+                    </c:forEach>
+                </ul>
+                <c:if test="${empty replies}">
                     <p class="no-reply">등록된 댓글이 없습니다.</p>
-                </c:otherwise>
-            </c:choose>
+                </c:if>
 
-            <c:if test="${not empty sessionScope.loggedInMember}">
-                <form action="${pageContext.request.contextPath}/qna/reply/${qna.qnaId}" method="post" class="reply-form">
-                    <textarea name="content" required placeholder="댓글을 입력하세요."></textarea>
-                    <button type="submit" class="reply-submit">댓글 등록</button>
-                </form>
-            </c:if>
-            <c:if test="${empty sessionScope.loggedInMember}">
-                <p class="login-notice">※ 댓글을 작성하려면 <a href="${pageContext.request.contextPath}/member/login" style="color: #007b7f; text-decoration: none;">로그인</a>이 필요합니다.</p>
-            </c:if>
+                <c:if test="${not empty sessionScope.loggedInMember}">
+                    <form action="${pageContext.request.contextPath}/qna/reply/${qna.qnaId}" method="post" class="reply-form">
+                        <textarea name="content" required placeholder="댓글을 입력하세요."></textarea>
+                        <button type="submit" class="reply-submit">댓글 등록</button>
+                    </form>
+                </c:if>
+                <c:if test="${empty sessionScope.loggedInMember}">
+                    <p class="login-notice">※ 댓글을 작성하려면 <a href="${pageContext.request.contextPath}/member/login" style="color: #007b7f; text-decoration: none;">로그인</a>이 필요합니다.</p>
+                </c:if>
+            </div>
 
             <div class="qa-buttons">
                 <a href="${pageContext.request.contextPath}/qna/list">목록으로</a>
