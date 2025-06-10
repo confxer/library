@@ -54,8 +54,10 @@ public class QnaServiceImpl implements QnaService {
     // 답변
     @Override
     public void updateAnswer(int qnaId, String answer) {
-        qnaDAO.updateAnswer(qnaId, answer);
+        qnaDAO.updateAnswer(qnaId, answer); // 답변 등록
+        qnaDAO.updateStatus(qnaId, "답변 완료"); // 상태 변경
     }
+
 
     // 댓글
     @Override

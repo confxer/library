@@ -8,11 +8,10 @@ public class Reply {
     private String writer;       // 작성자
     private String content;      // 답글 내용
     private Timestamp regDate;   // 작성일시
+    private String writerRole;   // 작성자 역할 (예: "admin", "member") ← ★ 추가
 
-    // 기본 생성자
     public Reply() {}
 
-    // 전체 필드 생성자 (선택)
     public Reply(int replyId, int qnaId, String writer, String content, Timestamp regDate) {
         this.replyId = replyId;
         this.qnaId = qnaId;
@@ -21,7 +20,6 @@ public class Reply {
         this.regDate = regDate;
     }
 
-    // Getter/Setter
     public int getReplyId() {
         return replyId;
     }
@@ -62,7 +60,14 @@ public class Reply {
         this.regDate = regDate;
     }
 
-    // toString() 메서드 (디버깅용)
+    public String getWriterRole() {
+        return writerRole;
+    }
+
+    public void setWriterRole(String writerRole) {
+        this.writerRole = writerRole;
+    }
+
     @Override
     public String toString() {
         return "Reply{" +
@@ -71,6 +76,7 @@ public class Reply {
                 ", writer='" + writer + '\'' +
                 ", content='" + content + '\'' +
                 ", regDate=" + regDate +
+                ", writerRole='" + writerRole + '\'' +
                 '}';
     }
 }
