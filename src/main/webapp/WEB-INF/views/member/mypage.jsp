@@ -140,7 +140,12 @@
 			                            <tr>
 			                                <td>${member.memberId}</td>
 			                                <td>${member.name}</td>
-			                                <td>${member.role }</td>
+			                                <td>
+												<select onchange="submit()">
+													<option><input type ="hidden" name = "ADMIN" value="ADMIN">ADMIN</option>
+													<option><input type ="hidden" name = "USER" value="USER">USER</option>
+												</select>
+											</td>
 			                                <td>부여하기</td>
 			                            </tr>
 		                        	</form>
@@ -192,6 +197,10 @@
             </dialog>
         </div>
     </div>
-	
+	<script type="text/javascript">
+		function submit(){
+			
+		}
+	</script>
 </body>
 </html>
