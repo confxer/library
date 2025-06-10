@@ -82,4 +82,10 @@ public class QnaServiceImpl implements QnaService {
     public void deleteReply(int replyId) {
         replyDAO.deleteReply(replyId);
     }
+
+	@Override
+	public void writeAnswer(int qnaId, String answerContent) {
+		// TODO Auto-generated method stub
+		
+	}
 }
