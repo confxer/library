@@ -155,6 +155,21 @@ public class QnaController {
         qnaService.updateAnswer(id, answer);
         return "redirect:/qna/detail/" + id;
     }
+    
+    @PostMapping("/answer/update")
+    public String updateAnswer(@RequestParam("qnaId") int qnaId,
+                               @RequestParam("answer") String answer,
+                               HttpSession session) {
+        MemberVO member = (MemberVO) session.getAttribute("loggedInMember");
+        boolean isAdmin = member != null && "admin".equalsIgnoreCase(member.getRole());
+
+        if (!isAdmin) {
+            return "redirect:/qna/detail/" + qnaId;
+        }
+
+        qnaService.updateAnswer(qnaId, answer); // 기존 메서드 재사용
+        return "redirect:/qna/detail/" + qnaId;
+    }
 
     // ✅ 댓글 등록
     @PostMapping("/reply/{id}")
