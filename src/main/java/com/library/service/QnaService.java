@@ -11,9 +11,11 @@ public interface QnaService {
     void updateQna(Qna qna);
     void deleteQna(int qnaId);
     Qna getQnaById(int qnaId);
+    void writeAnswer(int qnaId, String answerContent);
+   
     int getTotalCountBySearch(String keyword, String category);
 
-    // 🔽 여기를 추가!
+   
     List<Qna> getQnasBySearch(String keyword, String category, String sort, int page, int pageSize);
 
     // 답변
