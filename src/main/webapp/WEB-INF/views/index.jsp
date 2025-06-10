@@ -267,7 +267,7 @@
     <%-- 메인 배너 및 검색창 --%>
     <div class="main-banner">
         <h2>책과 함께하는 새로운 세상</h2>
-        <p>마을 도서관에서 지식과 영감을 발견하세요.</p>
+        <p><strong style="color:#ffe200">책마루</strong>에서 지식과 영감을 발견하세요.</p>
         <div class="banner-search-container">
             <form action="<c:url value="/list/search"/>" method="get">
                 <input type="text" name="query" placeholder="도서 제목, 저자 검색?">
@@ -330,7 +330,7 @@
                 <h3>이번 달 추천 도서</h3>
                 <div class="recommended-books">
                     <c:forEach var="book" items="${recommendations}" varStatus="status" begin="0" end="3">
-                        <div class="recommended-item">
+                        <div class="recommended-item" onclick="openPage(${book.seqNo})" style="cursor: pointer">
                             <%-- 이미지 경로를 실제 존재하는 이미지로 확인 또는 기본 이미지 사용 --%>
                             <img src="<c:url value="/resources/images/recommended_book_0${status.index + 1}.jpg"/>"
                                  alt="${book.title}" class="book-cover">
@@ -342,7 +342,6 @@
                         <c:set var="numMissing" value="${4 - fn:length(recommendations)}" /> <%-- size() 대신 fn:length() 사용 --%>
                         <c:forEach begin="1" end="${numMissing}">
                             <div class="recommended-item placeholder-item">
-                                <%-- 기본 이미지 경로 확인 (필요 시 직접 파일 추가). 이 파일이 없다면 'default_book_cover.jpg' 파일을 /resources/images/ 에 추가해야 합니다. --%>
                                 <img src="<c:url value="/resources/images/default_book_cover.jpg"/>" alt="준비중" class="book-cover">
                                 <p>추천 도서 준비중</p>
                                 <p></p>
@@ -359,7 +358,10 @@
     <%@ include file="/WEB-INF/views/includes/footer.jsp" %>
 
     <script>
-        // 필요 시 팝업 닫기 등의 스크립트 추가
+        function openPage(seqNo){
+        	url = `${pageContext.request.contextPath}/list/book/` + seqNo;
+        	window.location.href = url;
+        }
     </script>
 </body>
 </html>

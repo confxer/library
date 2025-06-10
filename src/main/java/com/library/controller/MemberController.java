@@ -84,7 +84,7 @@ public class MemberController {
             return "redirect:/member/login";
         }
         try {
-            // 현재 로그인된 회원의 전체 정보를 다시 불러옵니다.
+            // 현재 로그인된 회원	의 전체 정보를 다시 불러옵니다.
             MemberVO memberInfo = memberService.getMemberById(loggedInMember.getMemberId());
             List<Book> borrows = borrowService.showBorrows(loggedInMember.getMemberId());
             List<Borrow> borrowed = borrowService.showBorrowed(loggedInMember.getMemberId());

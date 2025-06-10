@@ -136,19 +136,17 @@
 		                    </thead>
 		                    <tbody>
 		                        <c:forEach var="member" items="${members}">
-		                        	<form action="/library/book/${borrow.seqNo }/return" method="post"> 
 			                            <tr>
 			                                <td>${member.memberId}</td>
 			                                <td>${member.name}</td>
 			                                <td>
 												<select onchange="submit()">
-													<option><input type ="hidden" name = "ADMIN" value="ADMIN">ADMIN</option>
-													<option><input type ="hidden" name = "USER" value="USER">USER</option>
+													<option>ADMIN</option>
+													<option>USER</option>
 												</select>
 											</td>
 			                                <td>부여하기</td>
 			                            </tr>
-		                        	</form>
 		                        </c:forEach>
 		                    </tbody>
 		                </table>
