@@ -63,4 +63,8 @@ public class BorrowService {
    public void returnBook(Long seqNo, Long borrowId) {
 	   borrowDAO.updateReturn(seqNo, borrowId);
    }
+   
+   public List<Borrow> adminBorrow(){
+	   return borrowDAO.adminManage();
+   }
 }

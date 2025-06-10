@@ -83,13 +83,18 @@ public class MemberController {
             redirectAttributes.addFlashAttribute("message", "로그인이 필요한 서비스입니다.");
             return "redirect:/member/login";
         }
-        
-
         try {
             // 현재 로그인된 회원의 전체 정보를 다시 불러옵니다.
             MemberVO memberInfo = memberService.getMemberById(loggedInMember.getMemberId());
             List<Book> borrows = borrowService.showBorrows(loggedInMember.getMemberId());
             List<Borrow> borrowed = borrowService.showBorrowed(loggedInMember.getMemberId());
+            if(loggedInMember.getRole().equals("ADMIN") ) {
+            	System.out.println("영자");
+            	List<MemberVO> members = memberService.showMembers();
+            	List<Borrow> memBor = borrowService.adminBorrow();
+            	model.addAttribute("members",members);
+            	model.addAttribute("memBor",memBor);
+            }
             if (memberInfo != null) {
                 model.addAttribute("member", memberInfo);
                 model.addAttribute("borrows", borrows);

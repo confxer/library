@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.sql.Timestamp; // Timestamp 임포트
 import java.util.Date; // Date 임포트
+import java.util.List;
 
 @Repository
 public class MemberDAOImpl implements MemberDAO {
@@ -106,4 +107,23 @@ public class MemberDAOImpl implements MemberDAO {
         Integer count = jdbcTemplate.queryForObject(sql, Integer.class, memberId);
         return count != null && count > 0;
     }
+
+	@Override
+	public List<MemberVO> showMembers() {
+		String sql = "select * from member";
+		return jdbcTemplate.query(sql, (rs, rowNum) ->{
+			MemberVO member = new MemberVO();
+    		member.setAddress(rs.getString("address"));
+    		member.setEmail(rs.getString("email"));
+    		member.setMemberId(rs.getString("member_id"));
+    		member.setName(rs.getString("name"));
+    		member.setPassword(rs.getString("password"));
+    		member.setPhone(rs.getString("phone"));
+    		Timestamp regTimestamp = rs.getTimestamp("regDate");
+    	    member.setRegDate(regTimestamp != null ? new Date(regTimestamp.getTime()) : null);
+            member.setRole(rs.getString("role"));
+            member.setStatus(rs.getString("status"));
+			return member;
+		});
+	}
 }

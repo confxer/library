@@ -51,4 +51,17 @@ public class BorrowDAO {
     	jdbcTemplate.update(sql1,seqNo);
     	jdbcTemplate.update(sql2,borrowId);
     }
+    
+    public List<Borrow> adminManage(){
+    	String sql = "select * from borrow where status = 'Y'";
+    	return jdbcTemplate.query(sql, (rs, rowNum) -> {
+    		Borrow borrow = new Borrow();
+			borrow.setBookSeqNo(rs.getLong("book_seq_no"));
+			borrow.setBorrowId(rs.getLong("borrow_id"));
+    	    borrow.setBorrowDate(rs.getTimestamp("borrow_date").toLocalDateTime());
+			borrow.setUserId(rs.getString("user_id"));
+			borrow.setStatus(rs.getString("status"));
+			return borrow;
+    	});
+    }
 }

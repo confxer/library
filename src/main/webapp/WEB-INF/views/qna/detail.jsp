@@ -286,11 +286,19 @@
                     <p class="no-reply">등록된 댓글이 없습니다.</p>
                 </c:if>
 
-                <c:if test="${not empty sessionScope.loggedInMember}">
+                <c:if test="${not empty loggedInMember}">
+                	<c:if test="${loggedInMember.role eq 'USER'}">
                     <form action="${pageContext.request.contextPath}/qna/reply/${qna.qnaId}" method="post" class="reply-form">
                         <textarea name="content" required placeholder="댓글을 입력하세요."></textarea>
                         <button type="submit" class="reply-submit">댓글 등록</button>
                     </form>
+                </c:if>
+	                <c:if test="${loggedInMember.role eq 'ADMIN'}">
+	                    <form action="${pageContext.request.contextPath}/qna/answer/${qna.qnaId}" method="post" class="reply-form">
+	                        <textarea name="answer" required placeholder="댓글을 입력하세요."></textarea>
+	                        <button type="submit" class="reply-submit">댓글 등록</button>
+	                    </form>
+	                </c:if>
                 </c:if>
                 <c:if test="${empty sessionScope.loggedInMember}">
                     <p class="login-notice">※ 댓글을 작성하려면 <a href="${pageContext.request.contextPath}/member/login" style="color: #007b7f; text-decoration: none;">로그인</a>이 필요합니다.</p>

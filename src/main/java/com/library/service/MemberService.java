@@ -1,5 +1,7 @@
 package com.library.service;
 
+import java.util.List;
+
 import com.library.member.MemberVO;
 
 public interface MemberService {
@@ -19,4 +21,5 @@ public interface MemberService {
     // 회원 정보를 업데이트하는 메서드
     boolean updateMember(MemberVO member) throws Exception;
     // --- 여기까지 추가합니다 ---
+    List<MemberVO> showMembers();
 }

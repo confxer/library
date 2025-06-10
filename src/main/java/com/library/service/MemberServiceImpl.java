@@ -1,5 +1,7 @@
 package com.library.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,4 +51,9 @@ public class MemberServiceImpl implements MemberService {
         return updatedRows > 0; // 1개 이상의 행이 업데이트되면 true 반환
     }
     // --- 여기까지 추가합니다 ---
+
+	@Override
+	public List<MemberVO> showMembers() {
+		return memberDAO.showMembers();
+	}
 }
