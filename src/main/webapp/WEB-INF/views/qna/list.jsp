@@ -209,7 +209,7 @@
             </c:when>
             <c:otherwise>
                 <button class="write-button"
-                        onclick="alert('로그인 후 이용 가능합니다.'); location.href='${pageContext.request.contextPath}/login';">
+                        onclick="alert('로그인 후 이용 가능합니다.'); location.href='${pageContext.request.contextPath}/member/login';">
                     질문 등록
                 </button>
             </c:otherwise>

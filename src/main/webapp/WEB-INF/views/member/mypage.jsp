@@ -94,41 +94,104 @@
             <a href="/library/member/edit">정보 수정</a>
             <a href="/library/member/logout" class="btn-logout">로그아웃</a>
             <a href="/library/">메인으로</a>
+            <c:if test="${loggedInMember.role == 'ADMIN' }">
+            <a onclick="modal.showModal()" >관리자 페이지</a>
+            <dialog id="modal">
+            	<div style="width:250px; height: 50px;" display="block">
+	            	<a style="background-color: green; width:50px; height: 80px; display:inline;" onclick = "members.showModal()">회원</a>
+	            	<a style="background-color: green; width:50px; height: 80px; display:inline;" onclick = "borrows.showModal()">대출 현황</a>
+            	</div>
+            	<dialog style="width: 500px; heigth: 700px;" id="borrows">
+            		<table>
+		                    <thead>
+		                        <tr>
+		                            <th>책 번호</th>
+		                            <th>아이디</th>
+		                            <th>날짜</th>
+		                        </tr>
+		                    </thead>
+		                    <tbody>
+		                        <c:forEach var="memBor" items="${memBor}">
+		                        	<form action="/library/book/${borrow.seqNo }/return" method="post"> 
+			                            <tr>
+			                                <td>${memBor.bookSeqNo}</td>
+			                                <td>${memBor.userId}</td>
+											<td>${memBor.borrowDate }</td>
+			                            </tr>
+		                        	</form>
+		                        </c:forEach>
+		                    </tbody>
+		                </table>
+            		<a onclick ="borrows.close()">닫기</a>
+            	</dialog>
+            	<dialog style="width: 500px; heigth: 700px;" id="members">
+		                <table>
+		                    <thead>
+		                        <tr>
+		                            <th>아이디</th>
+		                            <th>이름</th>
+		                            <th>역할</th>
+		                            <th>부여하기</th>
+		                        </tr>
+		                    </thead>
+		                    <tbody>
+		                        <c:forEach var="member" items="${members}">
+		                        	<form action="/library/book/${borrow.seqNo }/return" method="post"> 
+			                            <tr>
+			                                <td>${member.memberId}</td>
+			                                <td>${member.name}</td>
+			                                <td>${member.role }</td>
+			                                <td>부여하기</td>
+			                            </tr>
+		                        	</form>
+		                        </c:forEach>
+		                    </tbody>
+		                </table>
+            		<a  onclick="members.close()">닫기</a>
+            	</dialog>
+            	<a onclick="modal.close()">닫기</a>
+            </dialog>
+            </c:if>
+            <a onclick="borrow.showModal()">대출 보기</a>
+            <dialog id="borrow">
+			    <div class="loan-list-container">
+			        <h3>나의 대출 내역</h3>
+			        <c:choose>
+			            <c:when test="${not empty borrows && not empty borrowed}">
+			                <table>
+			                    <thead>
+			                        <tr>
+			                            <th>도서 제목</th>
+			                            <th>저자</th>
+			                            <th>반납</th>
+			                        </tr>
+			                    </thead>
+			                    <tbody>
+			                        <c:forEach var="borrow" items="${borrows}">
+			                        	<form action="/library/book/${borrow.seqNo }/return" method="post"> 
+				                            <tr>
+				                                <td>${borrow.title}</td>
+				                                <td>${borrow.author}</td>
+				                                <td><button type="submit">반납하기</button></td>
+					                        </c:forEach>
+					                        <c:forEach var="borrowed" items="${borrowed }">
+				                        	<input type="hidden" id="borrowId" name="borrowId" value="${borrowed.borrowId }"  >
+					                        </c:forEach>
+				                            </tr>
+			                        	</form>
+			                    </tbody>
+			                </table>
+			            </c:when>
+			            <c:otherwise>
+			                <p>대출 내역이 없습니다.</p>
+			            </c:otherwise>
+			        </c:choose>
+			    </div>
+            	
+            	<a onclick="borrow.close()">닫기</a>
+            </dialog>
         </div>
     </div>
-
-    <div class="loan-list-container">
-        <h3>나의 대출 내역</h3>
-        <c:choose>
-            <c:when test="${not empty borrows && not empty borrowed}">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>도서 제목</th>
-                            <th>저자</th>
-                            <th>반납</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach var="borrow" items="${borrows}">
-                        	<form action="/library/book/${borrow.seqNo }/return" method="post"> 
-	                            <tr>
-	                                <td>${borrow.title}</td>
-	                                <td>${borrow.author}</td>
-                        </c:forEach>
-                        <c:forEach var="borrowed" items="${borrowed }">
-                        	<input type="hidden" id="borrowId" name="borrowId" value="${borrowed.borrowId }"  >
-	                                <td><button type="submit">반납하기</button></td>
-	                            </tr>
-                        	</form>
-                        </c:forEach>
-                    </tbody>
-                </table>
-            </c:when>
-            <c:otherwise>
-                <p>대출 내역이 없습니다.</p>
-            </c:otherwise>
-        </c:choose>
-    </div>
+	
 </body>
 </html>

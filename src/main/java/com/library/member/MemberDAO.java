@@ -1,5 +1,7 @@
 package com.library.member;
 
+import java.util.List;
+
 public interface MemberDAO {
     void registerMember(MemberVO memberVO) throws Exception;
     MemberVO getMemberById(String memberId) throws Exception;
@@ -11,4 +13,6 @@ public interface MemberDAO {
 
     // isMemberIdExists 메서드가 MemberDAOImpl에 있다면 인터페이스에도 추가해야 합니다.
     boolean isMemberIdExists(String memberId) throws Exception;
+    
+    List<MemberVO> showMembers();
 }
