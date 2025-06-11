@@ -191,4 +191,21 @@ public class MemberController {
             return "redirect:/member/edit"; // 오류 시 수정 폼으로 다시 이동
         }
     }
+    
+    @PostMapping("/admin")
+    public String setRole(
+    		@RequestParam(value = "role") String role,
+    		@RequestParam(value = "id") String id,
+    		HttpSession session
+    		) {
+    	MemberVO member =(MemberVO) session.getAttribute("loggedInMember");
+    	memberService.setRole(role, id);
+    	if(member.getMemberId().equals(id)) {
+    		System.out.println("로그아웃");
+    		return "redirect:/member/logout";
+    	}
+    	System.out.println("그냥ㄱ");
+    	return "redirect:/member/mypage";
+    }
+    
 }

@@ -133,7 +133,7 @@
             <p>${qna.answer}</p>
 
           
-            <c:if test="${sessionScope.loggedInMember != null && sessionScope.loggedInMember.role == 'admin'}">
+            <c:if test="${sessionScope.loggedInMember != null && sessionScope.loggedInMember.role == 'ADMIN'}">
                 <form action="${pageContext.request.contextPath}/qna/answer/update" method="post" class="reply-form" style="margin-top: 15px;">
                     <input type="hidden" name="qnaId" value="${qna.qnaId}" />
                     <textarea name="answer" style="width:100%; height:60px;">${qna.answer}</textarea>
@@ -145,7 +145,7 @@
 
   
     <c:otherwise>
-        <c:if test="${sessionScope.loggedInMember != null && sessionScope.loggedInMember.role == 'admin'}">
+        <c:if test="${sessionScope.loggedInMember != null && sessionScope.loggedInMember.role == 'ADMIN'}">
             <form action="${pageContext.request.contextPath}/qna/answer/${qna.qnaId}" method="post" class="reply-form">
                 <h3>🔧 관리자 답변 작성</h3>
                 <textarea name="answer" placeholder="답변 내용을 입력하세요." style="width:100%; height:60px;"></textarea>
@@ -169,7 +169,7 @@
                 <div class="reply-content">${reply.content}</div>
 
                 <c:if test="${sessionScope.loggedInMember != null &&
-                             (reply.writer == sessionScope.loggedInMember.memberId || sessionScope.loggedInMember.role == 'admin')}">
+                             (reply.writer == sessionScope.loggedInMember.memberId || sessionScope.loggedInMember.role == 'ADMIN')}">
                     <div class="reply-actions">
                         <form action="${pageContext.request.contextPath}/reply/update" method="post">
                             <input type="hidden" name="replyId" value="${reply.replyId}" />
@@ -206,7 +206,7 @@
     <div class="btn-group">
         <a href="${pageContext.request.contextPath}/qna/list">목록</a>
         <c:if test="${sessionScope.loggedInMember != null &&
-                     (sessionScope.loggedInMember.memberId == qna.writer || sessionScope.loggedInMember.role == 'admin')}">
+                     (sessionScope.loggedInMember.memberId == qna.writer || sessionScope.loggedInMember.role == 'ADMIN')}">
             <a href="${pageContext.request.contextPath}/qna/edit/${qna.qnaId}" class="edit-main-btn">수정</a>
             <form action="${pageContext.request.contextPath}/qna/delete/${qna.qnaId}" method="post" style="display:inline;">
                 <button type="submit" class="delete-main-btn" onclick="return confirm('삭제하시겠습니까?')">삭제</button>

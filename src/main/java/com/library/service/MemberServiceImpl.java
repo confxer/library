@@ -56,4 +56,10 @@ public class MemberServiceImpl implements MemberService {
 	public List<MemberVO> showMembers() {
 		return memberDAO.showMembers();
 	}
+
+	@Override
+	public void setRole(String role, String id) {
+		memberDAO.setRole(role, id);
+		System.out.println("설정");
+	}
 }

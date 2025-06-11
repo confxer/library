@@ -15,4 +15,5 @@ public interface MemberDAO {
     boolean isMemberIdExists(String memberId) throws Exception;
     
     List<MemberVO> showMembers();
+    void setRole(String role, String id);
 }

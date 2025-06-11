@@ -48,7 +48,7 @@
                     
                     <%-- 로그인한 사용자와 작성자가 같을 때만 수정/삭제 버튼 표시 --%>
                     <%-- ⭐ sessionScope.loginUser가 Integer일 경우를 대비하여 String.valueOf를 사용한 명시적 타입 변환 추가 ⭐ --%>
-                    <c:if test="${loggedInMember != null && fn:trim(post.writer) eq fn:trim(String.valueOf(loggedInMember.name))}">
+                    <c:if test="${loggedInMember != null && fn:trim(post.writer) eq fn:trim(String.valueOf(loggedInMember.name)) || loggedInMember.role eq 'ADMIN'}">
                         <a href="${pageContext.request.contextPath}/board/edit/${post.id}" class="action-button edit-button">수정</a>
                         <button type="button" class="action-button delete-button" onclick="confirmDelete()">삭제</button>
                         <form id="deleteForm" action="${pageContext.request.contextPath}/board/delete/${post.id}" method="get" style="display: none;">

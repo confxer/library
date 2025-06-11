@@ -22,4 +22,5 @@ public interface MemberService {
     boolean updateMember(MemberVO member) throws Exception;
     // --- 여기까지 추가합니다 ---
     List<MemberVO> showMembers();
+    void setRole(String role, String id);
 }

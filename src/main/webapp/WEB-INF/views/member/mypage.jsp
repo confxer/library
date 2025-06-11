@@ -94,7 +94,7 @@
             <a href="/library/member/edit">정보 수정</a>
             <a href="/library/member/logout" class="btn-logout">로그아웃</a>
             <a href="/library/">메인으로</a>
-            <c:if test="${loggedInMember.role == 'ADMIN' }">
+            <c:if test="${loggedInMember.role eq 'ADMIN' }">
             <a onclick="modal.showModal()" >관리자 페이지</a>
             <dialog id="modal">
             	<div style="width:250px; height: 50px;" display="block">
@@ -131,7 +131,6 @@
 		                            <th>아이디</th>
 		                            <th>이름</th>
 		                            <th>역할</th>
-		                            <th>부여하기</th>
 		                        </tr>
 		                    </thead>
 		                    <tbody>
@@ -140,12 +139,20 @@
 			                                <td>${member.memberId}</td>
 			                                <td>${member.name}</td>
 			                                <td>
-												<select onchange="submit()">
-													<option>ADMIN</option>
-													<option>USER</option>
+			                                <form action="/library/member/admin" method="post">
+			                                	<input type="hidden" id = "id" name="id" value = "${member.memberId }">
+												<select id="role" name="role" onchange="this.form.submit()">
+													<c:if test="${member.role == 'ADMIN' }">
+														<option value = "ADMIN" selected>ADMIN</option>
+														<option value = "USER">USER</option>
+													</c:if>
+													<c:if test="${member.role == 'USER' }">
+														<option value = "ADMIN" >ADMIN</option>
+														<option value = "USER" selected>USER</option>
+													</c:if>
 												</select>
+			                                </form>
 											</td>
-			                                <td>부여하기</td>
 			                            </tr>
 		                        </c:forEach>
 		                    </tbody>
@@ -197,8 +204,16 @@
     </div>
 	<script type="text/javascript">
 		function submit(){
-			
+			const s = document.getElementById("role");
+			const v = s.value;
+			s.submit;
 		}
+		
+		window.onclick = function(event) {
+            if (event.target == document.getElementById('members')) {
+                closeModal();
+            }
+        }
 	</script>
 </body>
 </html>

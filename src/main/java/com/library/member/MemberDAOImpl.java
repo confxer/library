@@ -126,4 +126,11 @@ public class MemberDAOImpl implements MemberDAO {
 			return member;
 		});
 	}
+
+	@Override
+	public void setRole(String role, String id) {
+		String sql = "update member set role = ? where member_id = ?";
+		jdbcTemplate.update(sql,role,id);
+		
+	}
 }
