@@ -33,7 +33,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberVO login(String memberId, String password) throws Exception {
         // 실제 구현 로직
-        return memberDAO.getMemberById(memberId); // 실제 비밀번호 검증 로직 추가 필요
+        return memberDAO.login(memberId,password); // 실제 비밀번호 검증 로직 추가 필요
     }
 
     @Override
