@@ -135,4 +135,12 @@ public class Qna {
     public void setDeletedYn(String deletedYn) {
         this.deletedYn = deletedYn;
     }
+
+	@Override
+	public String toString() {
+		return "Qna [qnaId=" + qnaId + ", title=" + title + ", content=" + content + ", writer=" + writer + ", regDate="
+				+ regDate + ", modifiedDate=" + modifiedDate + ", status=" + status + ", viewCount=" + viewCount
+				+ ", password=" + password + ", openYn=" + openYn + ", answer=" + answer + ", answerRegDate="
+				+ answerRegDate + ", category=" + category + ", deletedYn=" + deletedYn + "]";
+	}
 }

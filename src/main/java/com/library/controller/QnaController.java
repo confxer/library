@@ -5,6 +5,9 @@ import com.library.qna.Qna;
 import com.library.qna.Reply;
 import com.library.service.QnaService;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -51,32 +54,75 @@ public class QnaController {
     public String view(@PathVariable("id") int id,
                        @RequestParam(value = "password", required = false) String password,
                        HttpSession session,
+                       HttpServletRequest request,
+                       HttpServletResponse response,
                        Model model) {
 
         Qna qna = qnaService.getQnaById(id);
         if (qna == null) {
             model.addAttribute("errorMessage", "존재하지 않는 Q&A 글입니다.");
-            return "qna/detail";
+            return "qna/list";
         }
-
         MemberVO member = (MemberVO) session.getAttribute("loggedInMember");
-        boolean isWriter = member != null && qna.getWriter().equals(member.getMemberId());
-        boolean isAdmin = member != null && "admin".equalsIgnoreCase(member.getRole());
-
-        // ✅ 비공개 글 접근 제한
-        if ("N".equals(qna.getOpenYn()) && !(isAdmin || isWriter)) {
-            if (password == null || !password.equals(qna.getPassword())) {
-                model.addAttribute("errorMessage", "비공개 글입니다. 비밀번호가 올바르지 않습니다.");
-                return "qna/detail";
+        
+        model.addAttribute("qna", qna);
+        List<Reply> replies = qnaService.getRepliesByQnaId(id);
+        model.addAttribute("replies", replies);
+        boolean passed = false;
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("passed".equals(cookie.getName()) && String.valueOf(id).equals(cookie.getValue())) {
+                    passed = true;
+                    cookie.setMaxAge(0);
+                    cookie.setPath("/");
+                    response.addCookie(cookie);
+                    break;
+                }
             }
         }
-
-        List<Reply> replies = qnaService.getRepliesByQnaId(id);
-        model.addAttribute("qna", qna);
-        model.addAttribute("replies", replies);
-        return "qna/detail";
+        // ✅ 비공개 글 접근 제한
+        if ("Y".equals(qna.getOpenYn()) || passed) {
+                return "qna/detail" ;
+        } else {
+        	try {
+        		if(member.getRole().equals("ADMIN") || member.getMemberId().equals(qna.getWriter())  ) {
+        			return "qna/detail";
+        		}        		
+        	} catch (Exception e) {
+        		
+        	}
+        	return "redirect:/qna/private/" +id;        		
+        }
     }
-
+    @GetMapping("/private/{id}")
+    public String go(
+    		@PathVariable(value = "id") int id,
+    		Model model) {
+    	Qna qna = qnaService.getQnaById(id);
+    	model.addAttribute("qna", qna);
+    	return "/qna/private";
+    }
+    
+    @PostMapping("/private/{id}")
+    public String pass(
+    		@PathVariable(value = "id") int id,
+            @RequestParam(value = "password") String password,
+            HttpServletResponse response,
+            Model model) {
+    	Qna qna = qnaService.getQnaById(id);
+    	model.addAttribute("qna", qna);
+    	System.out.println(qna.getPassword().equals(password)+"           1      1");
+    	if(qna.getPassword().equals(password)) {
+    		Cookie accessCookie = new Cookie("passed", String.valueOf(id));
+            accessCookie.setPath("/");
+            accessCookie.setMaxAge(60);
+            response.addCookie(accessCookie);
+    		return "redirect:/qna/detail/" + id;    		
+    	}
+    	else return "redirect:/qna/private/" + id ;
+    }
+    
     // ✅ 작성 폼
     @GetMapping("/write")
     public String writeForm(Model model) {

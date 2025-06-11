@@ -113,14 +113,10 @@
         <span>작성일: <fmt:formatDate value="${qna.regDate}" pattern="yyyy-MM-dd"/></span>
         <span>조회수: ${qna.viewCount}</span>
         <span class="status">
-            상태:
-            <c:choose>
-                <c:when test="${not empty qna.answer}">답변 완료</c:when>
-                <c:otherwise>대기중</c:otherwise>
-            </c:choose>
+            상태: ${qna.status }
+            
         </span>
     </div>
-
     <div class="content">
         ${qna.content}
     </div>
@@ -201,7 +197,6 @@
             <button type="submit">댓글 등록</button>
         </form>
     </c:if>
-
     <!-- 하단 버튼 -->
     <div class="btn-group">
         <a href="${pageContext.request.contextPath}/qna/list">목록</a>
