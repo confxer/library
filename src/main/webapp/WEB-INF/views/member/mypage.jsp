@@ -202,18 +202,25 @@
             </dialog>
         </div>
     </div>
-	<script type="text/javascript">
-		function submit(){
-			const s = document.getElementById("role");
-			const v = s.value;
-			s.submit;
-		}
-		
-		window.onclick = function(event) {
-            if (event.target == document.getElementById('members')) {
-                closeModal();
-            }
-        }
+	<script type="text/javascript">		
+	const dialog = document.getElementById('members');
+	const dialog1 = document.getElementById('borrows');
+	const dialog2 = document.getElementById('borrow');
+	const dialog3 = document.getElementById('modal');
+	dialog.addEventListener('click', (event) => {
+	    if (event.target === dialog) {
+	        dialog.close(); // 배경 클릭 시 닫기
+	    }
+	    if (event.target === dialog1) {
+	        dialog1.close(); // 배경 클릭 시 닫기
+	    }
+	    if (event.target === dialog2) {
+	        dialog2.close(); // 배경 클릭 시 닫기
+	    }
+	    if (event.target === dialog3) {
+	        dialog3.close(); // 배경 클릭 시 닫기
+	    }
+	});
 	</script>
 </body>
 </html>

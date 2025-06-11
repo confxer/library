@@ -46,15 +46,26 @@ public class MemberDAOImpl implements MemberDAO {
 
     @Override
     public  MemberVO login(String memberId, String password) throws Exception {
-        // 실제 비밀번호 검증 로직이 여기에 추가되어야 합니다.
-        // 현재는 ID만으로 회원 정보를 가져옵니다.
-        // 예를 들어:
-        // MemberVO member = getMemberById(memberId);
-        // if (member != null && passwordEncoder.matches(password, member.getPassword())) {
-        //     return member;
-        // }
-        // return null;
-        return getMemberById(memberId); // 임시 반환
+    	String sql = "select * from member where member_id = ? and password = ?";
+    	try {
+        	return jdbcTemplate.queryForObject(sql, (rs, rowNum) ->{
+        		MemberVO member = new MemberVO();
+        		member.setAddress(rs.getString("address"));
+        		member.setEmail(rs.getString("email"));
+        		member.setMemberId(rs.getString("member_id"));
+        		member.setName(rs.getString("name"));
+        		member.setPassword(rs.getString("password"));
+        		member.setPhone(rs.getString("phone"));
+        		Timestamp regTimestamp = rs.getTimestamp("regDate");
+        	    member.setRegDate(regTimestamp != null ? new Date(regTimestamp.getTime()) : null);
+                member.setRole(rs.getString("role"));
+                member.setStatus(rs.getString("status"));
+                System.out.println(member.toString());
+        		return member;
+        	}, memberId, password);
+		} catch (Exception e) {
+			return null;
+		}
     }
 
     @Override
