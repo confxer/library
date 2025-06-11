@@ -94,6 +94,9 @@
             margin-bottom: 15px;
             font-weight: bold;
         }
+        .hidden{
+        	display:none;
+        }
     </style>
 </head>
 <body>
@@ -136,13 +139,13 @@
 
             <div class="form-group">
                 <label for="openYn">공개 여부</label>
-                <select id="openYn" name="openYn">
+                <select id="openYn" name="openYn" onchange="private()">
                     <option value="Y" selected>공개</option>
                     <option value="N">비공개</option>
                 </select>
             </div>
 
-            <div class="form-group">
+            <div id="private" class="form-group hidden">
                 <label for="password">비밀번호 (비공개 시 열람용)</label>
                 <input type="password" id="password" name="password" placeholder="비공개 설정 시 입력하세요." />
             </div>
@@ -155,7 +158,17 @@
         </form>
     </div>
 </div>
-
+<script type="text/javascript">
+	function private(){
+		const value = document.getElementById("openYn").value;
+		console.log(value)
+		if(value === "Y"){
+			document.getElementById("private").classList.add("hidden")
+		} else {
+			document.getElementById("private").classList.remove("hidden")
+		}	
+	}
+</script>
 <jsp:include page="../includes/footer.jsp" />
 </body>
 </html>
