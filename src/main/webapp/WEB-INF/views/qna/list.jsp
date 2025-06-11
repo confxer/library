@@ -7,13 +7,16 @@
 <head>
     <meta charset="UTF-8">
     <title>도서관 Q&A 게시판</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css">
     <style>
+        /* 전체 배경 및 폰트 설정 */
         body {
             background: #f6f9fc;
             font-family: 'Noto Sans KR', sans-serif;
             margin: 0;
             padding: 0;
         }
+        /* 컨테이너 */
         .container {
             width: 70%;
             margin: 40px auto;
@@ -22,12 +25,14 @@
             border-radius: 12px;
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
         }
+        /* 페이지 타이틀 */
         h2 {
             font-size: 2em;
             margin-bottom: 20px;
             color: #333;
             text-align: center;
         }
+        /* Q&A 테이블 */
         .qa-board {
             width: 100%;
             border-collapse: collapse;
@@ -36,13 +41,15 @@
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
-        .qa-board colgroup col:nth-child(1) { width: 5%; }
-        .qa-board colgroup col:nth-child(2) { width: 15%; }
-        .qa-board colgroup col:nth-child(3) { width: 40%; }
-        .qa-board colgroup col:nth-child(4) { width: 12%; }
-        .qa-board colgroup col:nth-child(5) { width: 8%; }
-        .qa-board colgroup col:nth-child(6) { width: 10%; }
-        .qa-board colgroup col:nth-child(7) { width: 10%; }
+        /* colgroup으로 열 너비 지정 */
+        .qa-board colgroup col:nth-child(1) { width: 5%; }   /* 번호 */
+        .qa-board colgroup col:nth-child(2) { width: 15%; }  /* 카테고리 */
+        .qa-board colgroup col:nth-child(3) { width: 40%; }  /* 제목 */
+        .qa-board colgroup col:nth-child(4) { width: 12%; }  /* 작성일 */
+        .qa-board colgroup col:nth-child(5) { width: 8%; }   /* 조회수 */
+        .qa-board colgroup col:nth-child(6) { width: 10%; }  /* 상태 */
+        .qa-board colgroup col:nth-child(7) { width: 10%; }  /* 관리 */
+        /* 테이블 헤더 스타일 */
         .qa-board thead {
             background-color: #f9f9f9;
         }
@@ -52,7 +59,9 @@
             text-align: center;
             border-bottom: 1px solid #eaeaea;
         }
-        .qa-board th, .qa-board td {
+        /* 데이터 셀 기본 스타일 */
+        .qa-board th,
+        .qa-board td {
             padding: 6px;
             text-align: center;
             border-bottom: 1px solid #eaeaea;
@@ -63,6 +72,7 @@
         .qa-board tbody tr:hover {
             background-color: #eef9f9;
         }
+        /* 제목 칸 스타일: 줄바꿈 허용 후 최대 2줄 표시, 초과 시 ellipsis */
         .qa-title {
             text-align: left;
             padding-left: 8px;
@@ -70,11 +80,11 @@
         .qa-title a {
             display: -webkit-box;
             -webkit-box-orient: vertical;
-            -webkit-line-clamp: 2;
+            -webkit-line-clamp: 2;       /* 최대 2줄 */
             overflow: hidden;
             text-overflow: ellipsis;
-            line-height: 1.4em;
-            max-height: calc(1.4em * 2);
+            line-height: 1.4em;          /* 한 줄 높이 */
+            max-height: calc(1.4em * 2);  /* 두 줄 높이 만큼 제한 */
             white-space: normal;
             color: #333;
             text-decoration: none;
@@ -85,6 +95,7 @@
             font-size: 0.85em;
             vertical-align: middle;
         }
+        /* 검색 폼과 버튼 스타일 */
         .search-form {
             text-align: right;
             margin-bottom: 15px;
@@ -114,11 +125,13 @@
         .write-button:hover {
             background: #005f6a;
         }
+        /* 페이지네이션 스타일 */
         .pagination {
             text-align: center;
             margin-top: 20px;
         }
-        .pagination a, .pagination strong {
+        .pagination a,
+        .pagination strong {
             padding: 6px 10px;
             margin: 0 3px;
             border-radius: 6px;
@@ -131,6 +144,7 @@
             background-color: #007b7f;
             color: white;
         }
+        /* 수정/삭제 버튼 그룹 */
         .action-buttons {
             display: inline-flex;
             gap: 6px;
@@ -205,7 +219,13 @@
     <!-- Q&A 목록 테이블 -->
     <table class="qa-board">
         <colgroup>
-            <col /><col /><col /><col /><col /><col /><col />
+            <col />   <!-- 번호 -->
+            <col />   <!-- 카테고리 -->
+            <col />   <!-- 제목 -->
+            <col />   <!-- 작성일 -->
+            <col />   <!-- 조회수 -->
+            <col />   <!-- 상태 -->
+            <col />   <!-- 관리 -->
         </colgroup>
         <thead>
             <tr>
@@ -223,50 +243,47 @@
                 <c:when test="${not empty qnaList}">
                     <c:forEach var="qna" items="${qnaList}">
                         <tr>
+                            <!-- 번호 -->
                             <td>${qna.qnaId}</td>
+                            <!-- 카테고리 -->
                             <td>${qna.category}</td>
-                          <td class="qa-title">
-    <c:choose>
-        <c:when test="${qna.openYn eq 'N' 
-            and (empty sessionScope.loggedInMember 
-                or (sessionScope.loggedInMember.role ne 'admin' 
-                    and sessionScope.loggedInMember.memberId ne qna.writer))}">
-            <span style="color:#aaa;">🔒 비공개 글</span>
-        </c:when>
-        <c:otherwise>
-            <a href="${pageContext.request.contextPath}/qna/detail/${qna.qnaId}">
-                ${qna.title}
-            </a>
-            <c:if test="${qna.openYn eq 'N'}"><span>🔒 비공개</span></c:if>
-            <c:if test="${not empty qna.answer}"><span>✔️ 답변완료</span></c:if>
-        </c:otherwise>
-    </c:choose>
-</td>
+                            <!-- 제목 (2줄까지만 보이고 넘치면 ellipsis) -->
+                            <td class="qa-title">
+                                <a href="${pageContext.request.contextPath}/qna/detail/${qna.qnaId}">
+                                    ${qna.title}
+                                </a>
+                                <c:if test="${qna.openYn eq 'N'}">
+                                    <span>🔒 비공개</span>
+                                </c:if>
+                                <c:if test="${not empty qna.answer}">
+                                    <span>✔️ 답변완료</span>
+                                </c:if>
+                            </td>
+                            <!-- 작성일 -->
                             <td><fmt:formatDate value="${qna.regDate}" pattern="yyyy-MM-dd"/></td>
+                            <!-- 조회수 -->
                             <td>${qna.viewCount}</td>
+                            <!-- 상태 -->
                             <td>
                                 <c:choose>
                                     <c:when test="${not empty qna.answer}">답변 완료</c:when>
                                     <c:otherwise>대기중</c:otherwise>
                                 </c:choose>
                             </td>
+                            <!-- 관리(수정/삭제) -->
                             <td>
-    <c:if test="${not empty sessionScope.loggedInMember 
-                and (sessionScope.loggedInMember.role eq 'admin' 
-                     or sessionScope.loggedInMember.memberId eq qna.writer)}">
-        <div class="action-buttons">
-            <c:if test="${sessionScope.loggedInMember.memberId eq qna.writer}">
-                <form action="${pageContext.request.contextPath}/qna/edit/${qna.qnaId}" method="get">
-                    <button type="submit" class="edit">수정</button>
-                </form>
-            </c:if>
-            <form action="${pageContext.request.contextPath}/qna/delete/${qna.qnaId}" method="post"
-                  onsubmit="return confirm('삭제하시겠습니까?');">
-                <button type="submit" class="delete">삭제</button>
-            </form>
-        </div>
-    </c:if>
-</td>
+                                <div class="action-buttons">
+                                    <c:if test="${sessionScope.loggedInMember.memberId eq qna.writer || loggedInMember.role eq 'ADMIN'}">
+                                        <form action="${pageContext.request.contextPath}/qna/edit/${qna.qnaId}" method="get">
+                                            <button type="submit" class="edit">수정</button>
+                                        </form>
+                                        <form action="${pageContext.request.contextPath}/qna/delete/${qna.qnaId}"
+                                              method="post" onsubmit="return confirm('삭제하시겠습니까?');">
+                                            <button type="submit" class="delete">삭제</button>
+                                        </form>
+                                    </c:if>
+                                </div>
+                            </td>
                         </tr>
                     </c:forEach>
                 </c:when>
